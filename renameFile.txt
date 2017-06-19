@@ -1,0 +1,173 @@
+﻿Sub Main()
+GetActiveDocumentSample()
+'TraverseAssemblySample() 
+ShowReferences() 
+End Sub
+Public Sub GetActiveDocumentSample()
+ ' Get the active document.
+ Dim oDoc As Document
+ oDoc = ThisApplication.ActiveDocument
+'MsgBox ("Got " & oDoc.FullFileName)
+ 
+ invPartNumber=iProperties.Value("Project", "Part Number")
+ invPartDes=iProperties.Value("Project", "Description")
+ 'MsgBox ("Nr " & invPartNumber & " \n Des " & invPartDes)
+End Sub
+
+''------------------------------------------------------------------------------
+''Read out iProperties of the active Document
+''------------------------------------------------------------------------------
+Public Sub ShowReferences() 
+Dim oRefDoc As Document 
+    oRefDoc = ThisApplication.ActiveDocument
+' Get the design tracking property set.
+        Dim invDesignInfo As PropertySet
+        invDesignInfo = oRefDoc.PropertySets.Item("Design Tracking Properties")
+        
+        ' Get the part number property.
+        Dim invPartNumberProperty As Inventor.Property
+        Dim invPartName As Inventor.Property
+        
+        invPartNumberProperty = invDesignInfo.Item("Part Number")
+        invPartName = invDesignInfo.Item("Description")
+        
+        prtNr=invPartNumberProperty.Value
+        prtNm=invPartName.Value
+        flname=Filename(oRefDoc.FullFileName)
+        'ffilename=oRefDoc.FullFileName '---FileNameWithPath
+		
+		If prtNr.length() > 11 Then
+			Dim tmpPrtNr As String
+			tmpPrtNr=prtNr
+			prtNr=extractFileDescriptionAndNr(tmpPrtNr,1)
+			prtNm=extractFileDescriptionAndNr(tmpPrtNr,2)
+			invPartNumberProperty.Value=CStr(prtNr)
+			'invPartNumberProperty=prtNr
+			invPartName.Value=CStr(prtNm)
+			'invPartName=prtNm
+		End If
+			
+		
+    
+        'MsgBox(flname & "     ||      " & prtNr & "     ||      " & prtNm)
+        'Debug.Print (oRefDoc.DisplayName )
+ 
+End Sub
+''------------------------------------------------------------------------------
+''Iterate through the tree of parts of the assembly
+''------------------------------------------------------------------------------
+Public Sub TraverseAssemblySample() 
+    ' Get the active assembly. 
+    Dim oAsmDoc As AssemblyDocument 
+    oAsmDoc = ThisApplication.ActiveDocument 
+    Debug.Print (oAsmDoc.DisplayName )
+    'MsgBox(oAsmDoc.DisplayName )
+' Call the function that does the recursion. 
+    Call TraverseAssembly(oAsmDoc.ComponentDefinition.Occurrences, 1) 
+End Sub 
+
+Private Sub TraverseAssembly(Occurrences As ComponentOccurrences, _ 
+                             Level As Integer) 
+    ' Iterate through all of the occurrence in this collection.  This 
+    ' represents the occurrences at the top level of an assembly. 
+    Dim oOcc As ComponentOccurrence 
+    For Each oOcc In Occurrences 
+        ' Print the name of the current occurrence. 
+        Debug.Print (Space(Level * 3) & oOcc.Name )
+        'MsgBox(Space(Level * 3) & oOcc.Name )
+' Check to see if this occurrence represents a subassembly 
+        ' and recursively call this function to traverse through it. 
+        If oOcc.DefinitionDocumentType = kAssemblyDocumentObject Then 
+            Call TraverseAssembly(oOcc.SubOccurrences, Level + 1) 
+        End If 
+    Next 
+End Sub
+
+' Return the name of the file, without the path. 
+Public Function Filename(ByVal fullFilename As String) As String 
+    ' Extract the filename by getting everything to 
+    ' the right of the last backslash. 
+    Filename = Right$(fullFilename, Len(fullFilename)-InStrRev(fullFilename, "\")) 
+End Function 
+
+    ' Return True if the string contains only letters.
+    Private Function AllLetters(ByVal txt As String) As Boolean
+        Dim ch As String
+        Dim i As Integer
+
+        AllLetters = True
+        txt = UCase$(txt)
+        For i = 1 To Len(txt)
+            ' See if the next character is a non-digit.
+            ch = Mid$(txt, i, 1)
+            If ch < "A" Or ch > "Z" Then
+                ' This is not a letter.
+                AllLetters = False
+                Exit For
+            End If
+        Next i
+    End Function
+
+    ' Return True if the string contains only digits.
+    Private Function AllDigits(ByVal txt As String) As Boolean
+        Dim ch As String
+        Dim i As Integer
+
+        AllDigits = True
+        For i = 1 To Len(txt)
+            ' See if the next character is a non-digit.
+            ch = Mid$(txt, i, 1)
+            If ch < "0" Or ch > "9" Then
+                ' This is not a digit.
+                AllDigits = False
+                Exit For
+            End If
+        Next i
+    End Function
+
+Public Function extractFileDescriptionAndNr(ByVal tmpStr As String, lvl as Int32) As String
+
+            If tmpStr.Contains(".iam") Or tmpStr.Contains(".ipt") Or tmpStr.Contains(".idw") Then
+                Dim k2 As Int32
+                k2 = tmpStr.Length - 4
+                tmpStr = Left(tmpStr, k2)
+            End If
+
+            If tmpStr.Contains(" ") Then
+                tmpNr = tmpStr.Remove(tmpStr.IndexOf(" "), tmpStr.Length() - tmpStr.IndexOf(" "))
+                tmpDescription = tmpStr.Remove(0, tmpStr.IndexOf(" "))
+                tmpDescription = tmpDescription.TrimStart
+
+                If tmpDescription.Contains(" ") Then
+                    tmpStr2 = tmpDescription
+
+                    tmpStr2 = tmpStr2.Remove(tmpStr2.IndexOf(" "), tmpStr2.Length() - tmpStr2.IndexOf(" "))
+                    tmpStr2 = tmpStr2.Trim()
+
+
+                    If tmpStr2.Length = 1 And AllLetters(tmpStr2) = True Then
+                        tmpNr = tmpNr + " " + tmpStr2
+                        tmpDescription = tmpDescription.Remove(0, tmpDescription.IndexOf(" "))
+                    ElseIf tmpStr2.Length = 2 Then
+                        If AllLetters(tmpStr2(0)) = True And AllDigits(tmpStr2(1)) = True Then
+                            tmpNr = tmpNr + " " + tmpStr2
+                            tmpDescription = tmpDescription.Remove(0, tmpDescription.IndexOf(" "))
+                        End If
+                    End If
+
+
+                    Console.WriteLine(tmpNr & "     |     " & tmpDescription)
+                Else
+                    Console.WriteLine(tmpStr)
+                End If
+            Else
+                Console.WriteLine(tmpStr)
+            End If
+			
+			If lvl=1 Then
+				extractFileDescriptionAndNr=tmpNr
+			ElseIf lvl=2
+				extractFileDescriptionAndNr=tmpDescription
+			End If
+End Function			
+
