@@ -1,0 +1,57 @@
+﻿Public Sub Main()
+ 
+  ' Get the STL translator Add-In.
+  Dim oSTLTranslator As TranslatorAddIn
+  oSTLTranslator = ThisApplication.ApplicationAddIns.ItemById("{533E9A98-FC3B-11D4-8E7E-0010B541CD80}")
+  If oSTLTranslator Is Nothing Then
+    MsgBox("Could not access STL translator.")
+    Exit Sub
+  End If
+ 
+  Dim oDoc As PartDocument
+  oDoc = ThisApplication.ActiveDocument
+ 
+  Dim oContext As TranslationContext
+  oContext = ThisApplication.TransientObjects.CreateTranslationContext
+ 
+  Dim oOptions As NameValueMap
+  oOptions = ThisApplication.TransientObjects.CreateNameValueMap
+ 
+'    Save Copy As Options:
+'       Name Value Map:
+'               ExportUnits = 4
+'               Resolution = 1
+'               AllowMoveMeshNode = False
+'               SurfaceDeviation = 60
+'               NormalDeviation = 14
+'               MaxEdgeLength = 100
+'               AspectRatio = 40
+'               ExportFileStructure = 0
+'               OutputFileType = 0
+'               ExportColor = True
+ 
+  If oSTLTranslator.HasSaveCopyAsOptions(oDoc, oContext, oOptions) Then
+ 
+    ' Set accuracy.
+    '   2 = High,  1 = Medium,  0 = Low
+    oOptions.Value("Resolution") = 2
+   
+    ' Set output file type:
+    '   0 - binary,  1 - ASCII
+    oOptions.Value("OutputFileType") = 0
+    oOptions.Value("ExportUnits") = 5
+    oContext.Type = kFileBrowseIOMechanism
+   
+    Dim oData As DataMedium
+    oData = ThisApplication.TransientObjects.CreateDataMedium
+	Dim myFilename As String
+	myFilename = ThisDoc.FileName(False)
+    'oData.FileName = "C:\STL\" & myFilename & ".stl"
+	oData.FileName = "C:\Users\bch\Desktop\" & myFilename & ".stl"
+ 
+    Call oSTLTranslator.SaveCopyAs(oDoc, oContext, oOptions, oData)
+  End If
+ 
+  Beep
+  MsgBox("Completed")
+End Sub
