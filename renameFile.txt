@@ -51,8 +51,8 @@ Dim oRefDoc As Document
 			new_prtNr = extractFileDescriptionAndNr(tmpPrtNr,1)
 			new_prtNm = extractFileDescriptionAndNr(tmpPrtNr,2)
 			
-			MessageBox.Show(new_prtNr)
-			MessageBox.Show(new_prtNm)
+			'MessageBox.Show(new_prtNr)
+			'MessageBox.Show(new_prtNm)
 
 			
 			If Len(new_prtNr.Trim()) > 0 And String.Compare(prtNr.Trim(), new_prtNr.Trim()) <> 0 Then
@@ -191,7 +191,7 @@ Public Function extractFileDescriptionAndNr(ByVal tmpStr As String, lvl as Int32
 	
 	For Each word In string_array
 		word = word.Trim()
-		MessageBox.Show(word)
+		'MessageBox.Show(word)
 		If Len(word) > 0 Then
 			'MessageBox.Show(word, "extractFileDescriptionAndNr", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1)
 			If (word.length > 4 And wordToCharRatio(word) >= 0.75) Or Nr_to_Desc_Switch = True Then
