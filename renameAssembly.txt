@@ -1,8 +1,11 @@
+﻿' RENAME ASSEMBLY
+
 Sub Main()
 GetActiveDocumentSample()
 'TraverseAssemblySample() 
 ShowReferences() 
 End Sub
+
 Public Sub GetActiveDocumentSample()
  ' Get the active document.
  Dim oDoc As Document
@@ -18,53 +21,67 @@ End Sub
 ''Read out iProperties of the active Document
 ''------------------------------------------------------------------------------
 Public Sub ShowReferences() 
-    ' Get the active assembly. 
-    Dim oAsmDoc As AssemblyDocument 
-    oAsmDoc = ThisApplication.ActiveDocument
-    ' Get all of the referenced documents. 
-    Dim oRefDocs As DocumentsEnumerator 
-    oRefDocs = oAsmDoc.AllReferencedDocuments 
-' Iterate through the list of documents. 
-    Dim oRefDoc As Document 
-    For Each oRefDoc In oRefDocs 
-		' Get the design tracking property set.
-        Dim invDesignInfo As PropertySet
-        invDesignInfo = oRefDoc.PropertySets.Item("Design Tracking Properties")
-        
-        ' Get the part number property.
-        Dim invPartNumberProperty As Inventor.Property
-        Dim invPartName As Inventor.Property
-        
-        invPartNumberProperty = invDesignInfo.Item("Part Number")
-        invPartName = invDesignInfo.Item("Description")
-        
-        prtNr=invPartNumberProperty.Value
-        prtNm=invPartName.Value
-        flname=Filename(oRefDoc.FullFileName)
-        'ffilename=oRefDoc.FullFileName '---FileNameWithPath
-		
-		If prtNr.length() > 10 Then
-			Dim tmpPrtNr As String
-			tmpPrtNr=prtNr
-			'MsgBox("1")
-			prtNr=extractFileDescriptionAndNr(tmpPrtNr,1)
-			prtNm=extractFileDescriptionAndNr(tmpPrtNr,2)
-			'MsgBox("2")
-			invPartNumberProperty.Value=CStr(prtNr)
-			'invPartNumberProperty=prtNr
-			'MsgBox("3")
-			'invPartNumberProperty=prtNm
-			invPartName.Value=CStr(prtNm)
-			'invPartName=prtNm
-			'MsgBox("4")
-		End If
+	Try
+		' Get the active assembly. 
+		Dim oAsmDoc As AssemblyDocument 
+		oAsmDoc = ThisApplication.ActiveDocument
+		' Get all of the referenced documents. 
+		Dim oRefDocs As DocumentsEnumerator 
+		oRefDocs = oAsmDoc.AllReferencedDocuments 
+		' Iterate through the list of documents. 
+		Dim oRefDoc As Document 
+		For Each oRefDoc In oRefDocs
+			Dim flname As String
+			flname = Filename(oRefDoc.FullFileName)
 			
+			Try
+				' Get the design tracking property set.
+				Dim invDesignInfo As PropertySet
+				invDesignInfo = oRefDoc.PropertySets.Item("Design Tracking Properties")
+						
+				' Get the part number property.
+				Dim invPartNumberProperty As Inventor.Property
+				Dim invPartName As Inventor.Property
+				
+				invPartNumberProperty = invDesignInfo.Item("Part Number")
+				invPartName = invDesignInfo.Item("Description")
+				
+				Dim prtNr As String
+				Dim prtNm As String
+				
+				prtNr = invPartNumberProperty.Value
+				prtNm = invPartName.Value
+				'ffilename=oRefDoc.FullFileName '---FileNameWithPath	
 		
-    
-        'MsgBox(prtNr & "     ||      " & prtNm)
-		'MsgBox(flname & "     ||      " & prtNr & "     ||      " & prtNm)
-        'Debug.Print (oRefDoc.DisplayName )
-    Next 
+				If prtNr.length() > 11 And InStr(prtnr, "ISO") = 0 Then
+					Dim tmpPrtNr As String
+					Dim new_prtNr As String
+					Dim new_prtNm As String			
+					tmpPrtNr = prtNr
+					new_prtNr = extractFileDescriptionAndNr(tmpPrtNr,1)
+					new_prtNm = extractFileDescriptionAndNr(tmpPrtNr,2)
+		
+					
+					If Len(new_prtNr.Trim()) > 0 And String.Compare(prtNr.Trim(), new_prtNr.Trim()) <> 0 Then
+						invPartNumberProperty.Value = CStr(new_prtNr.trim())
+					End If
+					'invPartNumberProperty=prtNr
+					If Len(new_prtNm.Trim()) > 0 And String.Compare(prtNm.Trim(), new_prtNm.Trim()) <> 0 Then
+						invPartName.Value = CStr(new_prtNm.trim())
+					End If
+					'invPartName=prtNm
+				End If
+					
+				'MsgBox(flname & "     ||      " & prtNr & "     ||      " & prtNm)
+				'Debug.Print (oRefDoc.DisplayName )
+			Catch ex As Exception
+				MessageBox.Show(flname & "     ||      " & ex.Message)
+			End Try
+
+    	Next 
+	Catch ex As Exception
+		MessageBox.Show("     ||      " & ex.Message)
+	End Try
  MsgBox("Fertig .... Wooohoooo .... ")
 End Sub
 ''------------------------------------------------------------------------------
@@ -139,54 +156,84 @@ End Function
         Next i
     End Function
 
+Public Function wordToCharRatio(ByVal single_word As String) As Single
+'takes a word, counts the chars in the word, and creates a ratio (chars/length)
+	w_length = single_word.length
+	num_chars = 0
+	
+	'counting the chars in the word
+    single_word = UCase$(single_word)
+    For i = 1 To Len(single_word)
+        ' See if the next character is a non-digit.
+        ch = Mid$(single_word, i, 1)
+        If ch < "A" Or ch > "Z" Then
+            ' This is not a letter, do nothing
+		Else
+			' This is  a letter, count
+			num_chars = num_chars + 1
+        End If
+    Next i
+	
+	'calculating ratio
+	ratio = num_chars / w_length
+	
+	'MessageBox.Show(single_word & "     ||      " & ratio, "wordToCharRatio", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1)
+	
+	'returning the ratio
+	wordToCharRatio = ratio
+
+End Function
+
 Public Function extractFileDescriptionAndNr(ByVal tmpStr As String, lvl as Int32) As String
 
-            If tmpStr.Contains(".iam") Or tmpStr.Contains(".ipt") Or tmpStr.Contains(".idw") Then
-                Dim k2 As Int32
-                k2 = tmpStr.Length - 4
-                tmpStr = Left(tmpStr, k2)
-            End If
-			
-			If tmpStr.contains("_") Then
-				tmpStr=Replace(tmpStr, "_", " ")
+    If tmpStr.Contains(".iam") Or tmpStr.Contains(".ipt") Or tmpStr.Contains(".idw") Then
+        Dim k2 As Int32
+        k2 = tmpStr.Length - 4
+        tmpStr = Left(tmpStr, k2)
+    End If
+	
+	string_array = Split(tmpStr)
+	
+	Dim tmp_Nr As String
+	Dim tmp_Desc as String
+	tmp_Nr = ""
+	tmp_Desc = ""
+	Dim Nr_to_Desc_Switch As Boolean 
+	'Nr_to_Desc_Switch --> because in inventor, we can clearly say, that the part-nr is at the front, we can use such a switch
+	Nr_to_Desc_Switch = False
+	
+	For Each word In string_array
+		word = word.Trim()
+		If Len(word) > 0 Then
+			'MessageBox.Show(word, "extractFileDescriptionAndNr", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1)
+			If (word.length > 4 And wordToCharRatio(word) >= 0.75) Or Nr_to_Desc_Switch = True Then
+				'it is a real word or part of the description (see switch)
+				tmp_Desc = tmp_Desc + " " + word
+				Nr_to_Desc_Switch = True
+			Else
+				'it is a possible part of a part-nr
+				tmp_Nr = tmp_Nr + " " + word
 			End If
+		End If
+	
+	Next
+	
+	
+'	If Len(tmp_Nr.trim()) = 0 Then
+'		tmp_Nr = "-"
+'	End If
+'	
+'
+'	If Len(tmp_Desc.trim()) = 0 Then
+'		tmp_Desc = "-"
+'	End If
+
 			
+	If lvl=1 Then
+		extractFileDescriptionAndNr = tmp_Nr
+	ElseIf lvl=2
+		extractFileDescriptionAndNr = tmp_Desc
+	End If
+	
 
-            If tmpStr.Contains(" ") Then
-                tmpNr = tmpStr.Remove(tmpStr.IndexOf(" "), tmpStr.Length() - tmpStr.IndexOf(" "))
-                tmpDescription = tmpStr.Remove(0, tmpStr.IndexOf(" "))
-                tmpDescription = tmpDescription.TrimStart
-
-                If tmpDescription.Contains(" ") Then
-                    tmpStr2 = tmpDescription
-
-                    tmpStr2 = tmpStr2.Remove(tmpStr2.IndexOf(" "), tmpStr2.Length() - tmpStr2.IndexOf(" "))
-                    tmpStr2 = tmpStr2.Trim()
-
-
-                    If tmpStr2.Length = 1 And AllLetters(tmpStr2) = True Then
-                        tmpNr = tmpNr + " " + tmpStr2
-                        tmpDescription = tmpDescription.Remove(0, tmpDescription.IndexOf(" "))
-                    ElseIf tmpStr2.Length = 2 Then
-                        If AllLetters(tmpStr2(0)) = True And AllDigits(tmpStr2(1)) = True Then
-                            tmpNr = tmpNr + " " + tmpStr2
-                            tmpDescription = tmpDescription.Remove(0, tmpDescription.IndexOf(" "))
-                        End If
-                    End If
-
-
-                    Console.WriteLine(tmpNr & "     |     " & tmpDescription)
-                Else
-                    Console.WriteLine(tmpStr)
-                End If
-            Else
-                Console.WriteLine(tmpStr)
-            End If
-			
-			If lvl=1 Then
-				extractFileDescriptionAndNr=tmpNr
-			ElseIf lvl=2
-				extractFileDescriptionAndNr=tmpDescription
-			End If
-End Function			
-
+End Function
