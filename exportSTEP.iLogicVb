@@ -1,0 +1,87 @@
+﻿' Start of iLogic code *******************************************
+Stepfilename = ThisDoc.PathAndFileName(False)
+Dim Sdate As String = DateString & " " & TimeString
+
+'FileExists = True
+ 
+''check to see if the file to be exported already exists
+'Do While FileExists    
+'    ' Define name of exported file - note a .stp file extension 
+'    ' Is currently being used. In this example I am exporting a Step file
+'    CurrentFile = Stepfilename & " " & Sdate & ".stp"
+'    
+'    If Dir(CurrentFile) <> "" Then ' The file does exist
+'        Counter += 1
+'        FileExists = True
+'    Else
+'        SaveAs = MessageBox.Show("Export file as '" & CurrentFile & _
+'        "'?", "Cadline iLogic", _
+'        MessageBoxButtons.YesNo, MessageBoxIcon.Question, _
+'        MessageBoxDefaultButton.Button1)
+'        If SaveAs = vbNo Then
+'            Return
+'        Else ' User says continue
+'            FileExists = False
+'        End If
+'    End If
+'Loop
+ 
+' Put your export or 'save as' code in here ***********************
+ 
+' Get the STEP translator Add-In.
+Dim oSTEPTranslator As TranslatorAddIn
+oSTEPTranslator = ThisApplication.ApplicationAddIns.ItemById _
+("{90AF7F40-0C01-11D5-8E83-0010B541CD80}")
+Dim oContext As TranslationContext
+oContext = ThisApplication.TransientObjects.CreateTranslationContext
+Dim oOptions As NameValueMap
+oOptions = ThisApplication.TransientObjects.CreateNameValueMap
+ 
+If oSTEPTranslator.HasSaveCopyAsOptions(ThisApplication.ActiveDocument _
+, oContext, oOptions) Then
+    oOptions.Value("ApplicationProtocolType") = 3
+    oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
+	
+	'oOptions.Value("OutputFileType") = 0
+	'oOptions.Value("ExportUnits") = 5
+	'oContext.Type = kFileBrowseIOMechanism
+	
+	'Dim oData As DataMedium
+    'oData = ThisApplication.TransientObjects.CreateDataMedium
+	
+	'' Set export name of STEP file
+    'oData.FileName = CurrentFile
+	
+	Dim oData As DataMedium
+	oData = ThisApplication.TransientObjects.CreateDataMedium
+	Dim myFilename As String
+	myFilename = ThisDoc.FileName(False)
+	'oData.FileName = "C:\STL\" & myFilename & ".stl"
+	oData.FileName = "C:\Users\benjamin.koch\Desktop\" & myFilename & ".stp"
+    
+
+oSTEPTranslator.SaveCopyAs(ThisApplication.ActiveDocument, oContext _
+, oOptions, oData)
+End If
+ 
+' End of export code ***********************************************
+ 
+'' Ask user if they want to open the export folder
+'OpenFolder = MessageBox.Show("Export successful! " & _
+'"- open containing folder now?", "Cadline iLogic", _
+'MessageBoxButtons.YesNo, _
+'MessageBoxIcon.Question,MessageBoxDefaultButton.Button1)
+' 
+'If OpenFolder = vbYes Then
+'    Process.Start("explorer.exe", ThisDoc.Path)
+'Else ' User says continue
+'    'Return
+'End If
+ 
+' End of iLogic code **************************************************
+
+
+
+Beep
+
+i = MessageBox.Show("STEP Export Completed", "My iLogic Dialog", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1)

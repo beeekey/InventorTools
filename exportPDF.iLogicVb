@@ -1,0 +1,45 @@
+﻿'------start of iLogic-------
+oPath = ThisDoc.Path
+oFileName = ThisDoc.FileName(False) 'without extension
+oRevNum = iProperties.Value("Project", "Revision Number")
+oPDFAddIn = ThisApplication.ApplicationAddIns.ItemById _
+("{0AC6FD96-2F4D-42CE-8BE0-8AEA580399E4}")
+oDocument = ThisApplication.ActiveDocument
+oContext = ThisApplication.TransientObjects.CreateTranslationContext
+oContext.Type = IOMechanismEnum.kFileBrowseIOMechanism
+oOptions = ThisApplication.TransientObjects.CreateNameValueMap
+oDataMedium = ThisApplication.TransientObjects.CreateDataMedium
+
+
+'If oPDFAddIn.HasSaveCopyAsOptions(oDataMedium, oContext, oOptions) Then
+'oOptions.Value("All_Color_AS_Black") = 1
+'oOptions.Value("Remove_Line_Weights") = 1
+'oOptions.Value("Vector_Resolution") = 400
+'oOptions.Value("Sheet_Range") = Inventor.PrintRangeEnum.kPrintAllSheets
+''oOptions.Value("Custom_Begin_Sheet") = 2
+''oOptions.Value("Custom_End_Sheet") = 4
+'End If
+
+
+
+''get PDF target folder path
+'oFolder = Left(oPath, InStrRev(oPath, "\")) & "PDF"
+'
+''Check for the PDF folder and create it if it does not exist
+'If Not System.IO.Directory.Exists(oFolder) Then
+'    System.IO.Directory.CreateDirectory(oFolder)
+'End If
+'
+' 'Set the PDF target file name
+'oDataMedium.FileName = oFolder & "\" & oFileName & _
+'" Rev" & oRevNum & ".pdf"
+
+Dim myFilename As String
+myFilename = ThisDoc.FileName(False)
+oDataMedium.FileName = "C:\Users\benjamin.koch\Desktop\" & myFilename & ".pdf"
+
+'Publish document
+oPDFAddIn.SaveCopyAs(oDocument, oContext, oOptions, oDataMedium)
+
+i = MessageBox.Show("PDF Export Completed", "My iLogic Dialog", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1)
+'------end of iLogic-------

@@ -1,0 +1,9 @@
+﻿'Dim oPart As PartDocument
+'oPart = ThisApplication.ActiveDocument
+
+Dim oDoc As Document
+oDoc = ThisApplication.ActiveDocument
+
+'oPart = ThisApplication.Documents.Open(filename, False)
+'oDoc.Close
+oDoc.Close(True)
