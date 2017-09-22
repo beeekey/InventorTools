@@ -47,11 +47,11 @@
 	Dim myFilename As String
 	myFilename = ThisDoc.FileName(False)
     'oData.FileName = "C:\STL\" & myFilename & ".stl"
-	oData.FileName = "C:\Users\bch\Desktop\" & myFilename & ".stl"
+	oData.FileName = "C:\Users\benjamin.koch\Desktop\" & myFilename & ".stl"
  
     Call oSTLTranslator.SaveCopyAs(oDoc, oContext, oOptions, oData)
   End If
  
   Beep
-  MsgBox("Completed")
+  i = MessageBox.Show("STL Export Completed", "My iLogic Dialog", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1)
 End Sub
