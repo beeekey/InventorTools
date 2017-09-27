@@ -1,0 +1,9 @@
+﻿myName= ThisApplication.GeneralOptions.UserName
+
+If iProperties.Value("Project", "Designer") <> myName Then
+iProperties.Value("Project", "Designer") = myName
+MessageBox.Show("The Title block has been updated","an iLogic message for: " & myName)
+End If
+
+iProperties.Value("Project", "Creation Date") = Now
+InventorVb.DocumentUpdate()

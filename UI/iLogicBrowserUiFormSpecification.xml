@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FormSpecification xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>iLogicBrowserUiFormSpecification</Name>
+  <Guid>14d8abab-13ea-483e-9b9e-6cf9b141cd32</Guid>
+  <Items>
+    <UiElementSpec xsi:type="ControlRowSpec">
+      <Name>Row 1</Name>
+      <Guid>92409187-6951-4072-a6f5-70c16fc274ad</Guid>
+      <Items>
+        <UiElementSpec xsi:type="FormButtonControlSpec">
+          <Name>Dokumenteigenschaften</Name>
+          <Guid>97439e21-71e1-4ad2-82bb-72b64eb8510c</Guid>
+          <Image>
+            <BitmapByteArray />
+          </Image>
+          <TextVisible>true</TextVisible>
+        </UiElementSpec>
+      </Items>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="ControlRowSpec">
+      <Name>Row 3</Name>
+      <Guid>6922200e-0020-40ad-91d4-a10a11d70f6a</Guid>
+      <Items>
+        <UiElementSpec xsi:type="iLogicExternalRuleControlSpec">
+          <Name>renameFile</Name>
+          <Guid>77d4d905-0783-4f5e-95f1-1e39e07a1329</Guid>
+          <Image>
+            <BitmapByteArray />
+          </Image>
+          <TextVisible>true</TextVisible>
+          <RuleName>renameFile</RuleName>
+          <RuleButtonBehavior>RunRule</RuleButtonBehavior>
+          <Path>C:\Users\Public\Documents\Autodesk\Inventor 2018\Design Data\iLogic\renameFile.txt</Path>
+        </UiElementSpec>
+        <UiElementSpec xsi:type="iLogicExternalRuleControlSpec">
+          <Name>renameAssembly</Name>
+          <Guid>d11420f0-271b-4186-b201-39b5870b9057</Guid>
+          <Image>
+            <BitmapByteArray />
+          </Image>
+          <TextVisible>true</TextVisible>
+          <RuleName>renameAssembly</RuleName>
+          <RuleButtonBehavior>RunRule</RuleButtonBehavior>
+          <Path>C:\Users\Public\Documents\Autodesk\Inventor 2018\Design Data\iLogic\renameAssembly.txt</Path>
+        </UiElementSpec>
+      </Items>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="ControlRowSpec">
+      <Name>Row 2</Name>
+      <Guid>7fa1a694-2ecc-4cff-9c52-0a391e761afb</Guid>
+      <Items>
+        <UiElementSpec xsi:type="iLogicExternalRuleControlSpec">
+          <Name>AutomaticCenterlines</Name>
+          <Guid>94aa40c8-ffae-4fea-9090-f859bea6c82e</Guid>
+          <Image>
+            <BitmapByteArray />
+          </Image>
+          <TextVisible>true</TextVisible>
+          <RuleName>AutomaticCenterlines</RuleName>
+          <RuleButtonBehavior>RunRule</RuleButtonBehavior>
+          <Path>C:\Users\Public\Documents\Autodesk\Inventor 2018\Design Data\iLogic\AutomaticCenterlines.iLogicVb</Path>
+        </UiElementSpec>
+      </Items>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="ControlRowSpec">
+      <Name>Row 4</Name>
+      <Guid>df67d741-046d-46ab-b758-6c40a5ca8eb6</Guid>
+      <Items>
+        <UiElementSpec xsi:type="iLogicExternalRuleControlSpec">
+          <Name>exportSTL</Name>
+          <Guid>bfbcad1e-eec1-4ac6-82d1-c6a18ddc5546</Guid>
+          <Image>
+            <BitmapByteArray />
+          </Image>
+          <TextVisible>true</TextVisible>
+          <RuleName>exportSTL</RuleName>
+          <RuleButtonBehavior>RunRule</RuleButtonBehavior>
+          <Path>C:\Users\Public\Documents\Autodesk\Inventor 2018\Design Data\iLogic\exportSTL.iLogicVb</Path>
+        </UiElementSpec>
+        <UiElementSpec xsi:type="iLogicExternalRuleControlSpec">
+          <Name>exportSTEP</Name>
+          <Guid>ff91760f-a60e-4b36-85fc-143177385208</Guid>
+          <Image>
+            <BitmapByteArray />
+          </Image>
+          <TextVisible>true</TextVisible>
+          <RuleName>exportSTEP</RuleName>
+          <RuleButtonBehavior>RunRule</RuleButtonBehavior>
+          <Path>C:\Users\Public\Documents\Autodesk\Inventor 2018\Design Data\iLogic\exportSTEP.iLogicVb</Path>
+        </UiElementSpec>
+        <UiElementSpec xsi:type="iLogicExternalRuleControlSpec">
+          <Name>exportPDF</Name>
+          <Guid>6100643a-a852-43ae-9546-e88ff4cff8b1</Guid>
+          <Image>
+            <BitmapByteArray />
+          </Image>
+          <TextVisible>true</TextVisible>
+          <RuleName>exportPDF</RuleName>
+          <RuleButtonBehavior>RunRule</RuleButtonBehavior>
+          <Path>C:\Users\Public\Documents\Autodesk\Inventor 2018\Design Data\iLogic\exportPDF.iLogicVb</Path>
+        </UiElementSpec>
+        <UiElementSpec xsi:type="iLogicExternalRuleControlSpec">
+          <Name>closeFile</Name>
+          <Guid>61819166-8aa7-4daa-b960-aae3818da862</Guid>
+          <Image>
+            <BitmapByteArray />
+          </Image>
+          <TextVisible>true</TextVisible>
+          <RuleName>closeFile</RuleName>
+          <RuleButtonBehavior>RunRule</RuleButtonBehavior>
+          <Path>C:\Users\Public\Documents\Autodesk\Inventor 2018\Design Data\iLogic\closeFile.iLogicVb</Path>
+        </UiElementSpec>
+      </Items>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="FormButtonControlSpec">
+      <Name>Balloonmoulds</Name>
+      <Guid>6d38f9c4-b09a-4f87-a8bc-3dca9bd0f957</Guid>
+      <Image>
+        <BitmapByteArray />
+      </Image>
+      <TextVisible>true</TextVisible>
+    </UiElementSpec>
+  </Items>
+  <StyleAndSkinName>
+    <StyleName>Default</StyleName>
+  </StyleAndSkinName>
+  <AllowCustomization>false</AllowCustomization>
+  <PredefinedButtons>None</PredefinedButtons>
+  <Modal>false</Modal>
+  <IsLauncherPage>true</IsLauncherPage>
+</FormSpecification>

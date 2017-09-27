@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FormSpecification xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Dokumenteigenschaften</Name>
+  <Guid>4b1a3528-c204-46c3-8b51-68f51282ec14</Guid>
+  <Items>
+    <UiElementSpec xsi:type="ControlRowSpec">
+      <Name>Zeile 1</Name>
+      <Guid>7e3a685d-93d8-421f-89ac-006e9dfac5b9</Guid>
+      <Items>
+        <UiElementSpec xsi:type="TextPropertyControlSpec">
+          <Name>Bauteilnummer</Name>
+          <Guid>7b4df662-8a12-4da0-8b3a-759d7838f5bc</Guid>
+          <PropertyName>Part Number</PropertyName>
+          <PropertySetName>Project</PropertySetName>
+        </UiElementSpec>
+        <UiElementSpec xsi:type="TextPropertyControlSpec">
+          <Name>Revisionsnummer</Name>
+          <Guid>5396326d-e8a8-43c0-a4ac-59c0dd391d1e</Guid>
+          <PropertyName>Revision Number</PropertyName>
+          <PropertySetName>Project</PropertySetName>
+        </UiElementSpec>
+      </Items>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="TextPropertyControlSpec">
+      <Name>Beschreibung</Name>
+      <Guid>53440e5e-4b1a-4809-9fca-27d7b618ed89</Guid>
+      <PropertyName>Description</PropertyName>
+      <PropertySetName>Project</PropertySetName>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="TextPropertyControlSpec">
+      <Name>Vendor</Name>
+      <Guid>0bb7b221-3fc6-403a-bd2c-944b679d18bb</Guid>
+      <PropertyName>Vendor</PropertyName>
+      <PropertySetName>Project</PropertySetName>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="TextPropertyControlSpec">
+      <Name>Status</Name>
+      <Guid>8b513102-3672-49ab-b2af-55e9076e05b3</Guid>
+      <PropertyName>Status</PropertyName>
+      <PropertySetName>Status</PropertySetName>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="ControlRowSpec">
+      <Name>Zeile 2</Name>
+      <Guid>1bc1513f-6305-472a-8a02-abaf9e768630</Guid>
+      <Items>
+        <UiElementSpec xsi:type="TextPropertyControlSpec">
+          <Name>Konstrukteur</Name>
+          <Guid>badd6ecf-4267-4312-b431-f31ab8fefeb6</Guid>
+          <PropertyName>Designer</PropertyName>
+          <PropertySetName>Project</PropertySetName>
+        </UiElementSpec>
+        <UiElementSpec xsi:type="TextPropertyControlSpec">
+          <Name>Autor</Name>
+          <Guid>299a01bf-4607-4bdb-a2cd-910e537a0d95</Guid>
+          <ReadOnly>true</ReadOnly>
+          <PropertyName>Author</PropertyName>
+          <PropertySetName>Summary</PropertySetName>
+        </UiElementSpec>
+      </Items>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="DatePropertyControlSpec">
+      <Name>Erstellungsdatum</Name>
+      <Guid>8ba2c8ca-9b01-4d2f-a253-cbee17693402</Guid>
+      <PropertyName>Creation Date</PropertyName>
+      <PropertySetName>Project</PropertySetName>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="TextPropertyControlSpec">
+      <Name>Thema</Name>
+      <Guid>c4403db7-d160-4c72-bbca-e7b67e14e78a</Guid>
+      <PropertyName>Subject</PropertyName>
+      <PropertySetName>Summary</PropertySetName>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="TextPropertyControlSpec">
+      <Name>Schlüsselwörter</Name>
+      <Guid>877b979c-ba0b-424b-b80a-e44772d767cf</Guid>
+      <PropertyName>Keywords</PropertyName>
+      <PropertySetName>Summary</PropertySetName>
+    </UiElementSpec>
+    <UiElementSpec xsi:type="MultiValueTextParameterControlSpec">
+      <Name>myMaterial</Name>
+      <Guid>6d266162-77ab-4488-84e8-90c024dbb4b0</Guid>
+      <ToolTip />
+      <ParameterName>myMaterial</ParameterName>
+      <EditControlType>ComboBox</EditControlType>
+      <AllowCustomValues>false</AllowCustomValues>
+      <MinimumItemsToShow>2</MinimumItemsToShow>
+      <RadioGroupColumnCount>1</RadioGroupColumnCount>
+    </UiElementSpec>
+  </Items>
+  <StyleAndSkinName>
+    <StyleName>Default</StyleName>
+  </StyleAndSkinName>
+  <AllowCustomization>false</AllowCustomization>
+  <PredefinedButtons>Done</PredefinedButtons>
+  <Modal>false</Modal>
+</FormSpecification>
